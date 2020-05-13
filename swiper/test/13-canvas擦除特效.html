@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>13——canvas 获取拷贝图像</title>
+	<meta name='viewport' content='width=device-width',initial-scale=1.0,maximun-scale=1.0,minimum-scale=1.0,user-scalable=no>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .box {
+            width: 375px;
+            margin: 0 auto;
+            position: relative;
+        }
+        
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #cas {
+            /* background: url(wipe1.jpg) center no-repeat; */
+            margin: 0 auto;
+        }
+        
+        .content {
+            font-size: 48px;
+            line-height: 200px;
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <canvas width="375" height="200" id="cas">
+            您的浏览器不支持canvas
+        </canvas>
+        <div class="content"></div>
+        <p>canvas绘图</p>
+    </div>
+</body>
+
+</html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js "></script>
+<script src="../dist/swiper-ss12138.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+  //   var cas = document.getElementById("cas");
+  //   var context = cas.getContext("2d");
+  //   var fontArr = ['一等奖', '二等奖', '三等奖', '谢谢惠顾', '谢谢惠顾', '谢谢惠顾', '谢谢惠顾', '谢谢惠顾', '谢谢惠顾']
+
+  //   // 参数：数组、奖项、canvas名字、获取到的上下文、半径、范围、颜色
+  //   function canv(arr, font_obj, name, obj, r, space, color) {
+  //       this.r = r
+  //       this.font_obj = font_obj
+  //       this.arr = arr
+  //       this.color = color
+  //       this.space = space
+  //       this.obj = obj
+  //       this.that = $(name)
+  //       this.x = null
+  //       this.y = null
+  //       this.cx = null
+  //       this.cy = null
+  //       this.w = $(name).width()
+  //       this.h = $(name).height()
+  //       this.mask()
+  //       this.func()
+  //       this.state = false
+  //   }
+  //   // 蒙版
+  //   canv.prototype.mask = function() {
+
+  //           var ran = Math.floor(Math.random() * this.arr.length)
+  //           $(this.font_obj)[0].innerText = this.arr[ran]
+
+  //           this.obj.beginPath();
+  //           this.obj.moveTo(0, 0)
+  //           this.obj.fillStyle = this.color
+  //           this.obj.fillRect(0, 0, this.w, this.h)
+  //       }
+  //       // 获取x，y
+  //   canv.prototype.func = function() {
+		// var the = this
+		// //检测用户的设备类型。移动端true,pc端返回false
+		// var device = (/android|webos|iPhone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+		// var clickEvent = device ? "touchstart" : "mousedown";
+		// var moveEvent = device ? "touchmove" : "mousemove";
+		// var endEvent = device ? "touchend" : "mouseup";
+		
+		
+  //       the.that[0].addEventListener(clickEvent, function(event) {
+  //               // the.x = event.clientX - the.that.offset().left
+  //               // the.y = event.clientY - the.that.offset().top
+  //           the.cx = event.changedTouches[0].clientX - the.that.offset().left
+  //           the.cy = event.changedTouches[0].clientY - the.that.offset().top
+  //           the.wipe()
+  //           the.state = true
+			
+  //       })
+  //       the.that[0].addEventListener(moveEvent, function(event) {
+  //           if (the.state == true) {
+  //               the.x = event.changedTouches[0].clientX - the.that.offset().left
+  //               the.y = event.changedTouches[0].clientY - the.that.offset().top
+  //               the.wipe2()
+  //               the.cx = event.changedTouches[0].clientX - the.that.offset().left
+  //               the.cy = event.changedTouches[0].clientY - the.that.offset().top
+  //           }
+  //       })
+
+  //       this.that[0].addEventListener(endEvent, function(event) {
+
+  //           the.state = false
+  //           the.test()
+  //               // cas.removeEventListener('monsemove')
+  //       })
+
+  //       // console.log('松开')
+  //   }
+
+  //   // 擦除
+  //   canv.prototype.wipe = function() {
+  //       // console.log(this.x)
+  //       this.obj.beginPath();
+  //       this.obj.globalCompositeOperation = 'destination-out';
+  //       this.obj.arc(this.cx, this.cy, this.r, 0, 2 * Math.PI)
+  //       this.obj.fill()
+  //   }
+
+  //   canv.prototype.wipe2 = function() {
+  //           this.obj.beginPath();
+  //           this.obj.moveTo(this.cx, this.cy);
+  //           this.obj.lineTo(this.x, this.y);
+  //           this.obj.lineWidth = this.r * 2; //笔刷线条的大小
+  //           this.obj.lineCap = "round"; //连接点效果为圆的
+  //           this.obj.fillStyle = "red";
+  //           this.obj.stroke();
+  //           this.obj.restore();
+
+  //       }
+  //       // 检测
+
+  //   canv.prototype.test = function() {
+  //       var imgData = this.obj.getImageData(0, 0, this.w, this.h)
+  //       var num = 0
+
+  //       for (var i = 0; i < imgData.data.length; i += 4) {
+  //           if (imgData.data[i + 3] == 0) {
+  //               num++
+  //           }
+  //       }
+
+  //       if (num > (imgData.data.length / 4 / this.space)) {
+  //           context.clearRect(0, 0, this.w, this.h)
+  //       }
+  //   }
+
+  //   // 参数，名字、对象、半径、范围
+  //   new canv(fontArr, '.content', '#cas', context, 10, 3, 'blue')
+
+</script>
