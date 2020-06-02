@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+		<title>对话框</title>
+		<!-- <link rel="stylesheet" type="text/css" href="index.css" /> -->
+		
+		<link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.3/style/weui.min.css">
+		<link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.1/css/jquery-weui.min.css">
+		
+		<style type="text/css">
+			.box {
+				width: 100%;
+				background: pink;
+				height: 2000px;
+			}
+
+			.dialog_container {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				font-family: "Helvetica Neue", "Segoe UI", Tahoma, Arial, "Hiragino Sans GB", STHeiti, "Microsoft Yahei", "WenQuanYi Micro Hei", sans-serif;
+			}
+
+			/* 蒙版 */
+			.dialog_backdrop {
+				position: fixed;
+				top: 0;
+				right: 0;
+				bottom: 0;
+				left: 0;
+				z-index: 99;
+				background: rgba(0, 0, 0, .4);
+				/* opacity: 0; */
+				-webkit-transition-duration: 400ms;
+				transition-duration: 400ms;
+			}
+
+			/* 对话框 */
+			.dialog_box {
+				width: 270px;
+				/* background-color: gold; */
+				background: rgba(255, 255, 255, .95);
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				transform: translate3d(-50%, -50%, 0) scale(1);
+				overflow: hidden;
+				text-align: center;
+				border-radius: 13px;
+				z-index: 999;
+			}
+
+			.dialog_inner {
+				position: relative;
+				padding: 15px;
+				background: rgba(255, 255, 255, .95);
+				border-radius: 13px 13px 0 0;
+				border-bottom: 1px solid rgba(0, 0, 0, .1);
+
+			}
+
+			.dialog_popup_title {
+				font-size: 18px;
+				font-weight: 500;
+				text-align: center;
+			}
+
+			.dialog_popup_text {
+				margin: 5px 0 0;
+				font-family: inherit;
+				font-size: 14px;
+			}
+
+			.dialog_popup_ft {
+				position: relative;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				height: 44px;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+			}
+
+
+
+			.dialog_popup_buttons {
+				position: relative;
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: flex;
+				height: 44px;
+				-webkit-box-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+			}
+
+			.dialog_popup_confirm {
+				font-weight: 600;
+				position: relative;
+				display: block;
+				width: 100%;
+				height: 44px;
+				box-sizing: border-box;
+				padding: 0 5px;
+				overflow: hidden;
+				font-size: 17px;
+				line-height: 44px;
+				color: #007aff;
+				text-align: center;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				cursor: pointer;
+				background: rgba(255, 255, 255, .95);
+				-webkit-box-flex: 1;
+			}
+
+			.dialog_popup_buttons {
+				position: relative;
+				display: block;
+				width: 100%;
+				height: 44px;
+				box-sizing: border-box;
+				padding: 0 5px;
+				overflow: hidden;
+				font-size: 17px;
+				line-height: 44px;
+				color: #007aff;
+				text-align: center;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				cursor: pointer;
+				background: rgba(255, 255, 255, .95);
+				-webkit-box-flex: 1;
+				display: flex;
+			}
+
+			.weight {
+				font-weight: 600;
+			}
+
+			.dialog_popup_deny {
+				border-left: 1px solid rgba(0, 0, 0, .1);
+			}
+
+			.dialog_popup_input {
+				display: flex;
+			}
+
+			#dialog_input {
+				width: 100%;
+				height: 26px;
+				padding: 0 5px;
+				margin: 15px 0 0;
+				font-size: 14px;
+				background: #fff;
+				border: 1px solid rgba(0, 0, 0, .3);
+				border-radius: 0;
+			}
+
+			.dialog_toast {
+				/* width: 270px; */
+				display: flex;
+				align-items: center;
+				padding: 10px 25px;
+				background-color: gold;
+				background: rgba(0, 0, 0, .75);
+				color: #FFFFFF;
+				position: fixed;
+				top: 95%;
+				opacity: 1;
+				left: 50%;
+				transform: translate3d(-50%, -50%, 0) scale(1);
+				overflow: hidden;
+				text-align: center;
+				border-radius: 5px;
+				z-index: 999;
+				flex-direction: column;
+			}
+			.dialog_toast .dialog-icon{
+				display: flex;
+				height: 80%;
+				width: 100%;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			
+		</style>
+
+		<style type="text/css">
+			.red {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box"></div>
+
+
+		<!-- <div class="dialog_container">
+			<div class="dialog_toast">
+				欢迎使用dialog
+				<icon></icon>
+				<span></span>
+			</div>
+		</div> -->
+<!-- <i class="weui-icon-success weui-icon_msg"></i> -->
+<i class="weui-icon-info weui-icon_msg"></i>
+	</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="../js/dialog-ss12138-1.0.01.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script src="https://cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/jquery-weui.min.js"></script>
+
+<!-- 如果使用了某些拓展插件还需要额外的JS -->
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/swiper.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery-weui/1.2.1/js/city-picker.min.js"></script>
+
+<script type="text/javascript">
+	
+	// $.toast("禁止操作", "forbidden");
+	// $.toast("操作成功");
+	// var obj = {
+	// 	type: 'alter',
+	// 	// type: 'confirm',
+	// 	// type: 'prompt',
+	// 	// type: 'toast',
+	// 	title: '标题',
+	// 	message: '内容',
+	// 	duration: 1000,
+	// 	drag:false
+	// }
+	var test = new dialog({
+		dragState: true,
+		remember: true
+	})
+
+	$('.box').on('click', function() {
+		// test.toast({
+		// 	message:'测试',
+		// 	duration:10000,
+		// 	target: ['.dialog_toast'],
+		// 	className: ['red'],
+		// 	// boxSizing:{
+		// 	// 	w:100,
+		// 	// 	h:100,
+		// 	// 	type:'px'
+		// 	// },
+		// 	position:{
+		// 		t:50,
+		// 		l:50,
+		// 		type:'%'
+		// 	},
+		// 	// icon:'risk'
+		// })
+
+
+		test.alter({
+			w:200,
+			h:150,
+			target:['.dialog_popup_title','.dialog_popup_text'],
+			className:['red','red'],
+			title:'title',
+			message:'massage',
+			con:'确定',
+			// can:'取消',
+			onOk:function(){
+				console.log(1)
+				test.toast({
+					message:'测试',
+					duration:1000,
+					target: ['.dialog_toast'],
+					className: ['red'],
+					// boxSizing:{
+					// 	w:100,
+					// 	h:100,
+					// 	type:'px'
+					// },
+					position:{
+						t:50,
+						l:50,
+						type:'%'
+					},
+					icon:'success'
+				})
+			}
+		})
+
+
+		// test.confirm({
+		// 	w: 200,
+		// 	h: 150,
+		// 	target: ['.dialog_popup_title', '.dialog_popup_text'],
+		// 	className: ['red', 'red'],
+		// 	title: 'title',
+		// 	message: 'massage',
+		// 	// con:'确定',
+		// 	// can:'取消',
+		// 	onOk: function() {
+		// 		console.log(1)
+		// 	}
+		// })
+
+		// test.prompt({
+		// 	title:'title',
+		// 	message:'massage',
+		// 	con:'确定',
+		// 	// can:'取消',
+		// 		target:['.dialog_popup_title','.dialog_popup_text'],
+		// 		className:['red','red'],
+		// 	onOk:function(mas){
+		// 		console.log(mas)
+		// 	}
+		// })
+
+		// test.modal({
+		// 	title: 'title',
+		// 	message: 'massage',
+		// 	// target:['.dialog_popup_title','.dialog_popup_text'],
+		// 	// className:['red','red'],
+		// 	// target:'.dialog_popup_buttons:eq(1)',
+		// 	// className:'red',
+		// 	buttons: [{
+		// 			text: "1",
+		// 			onClick: function() {
+		// 				console.log(1)
+		// 			}
+		// 		},
+		// 		{
+		// 			text: "2",
+		// 			onClick: function() {
+		// 				console.log(2)
+		// 			}
+		// 		},
+		// 		{
+		// 			text: "3",
+		// 			onClick: function() {
+		// 				console.log(3)
+		// 			}
+		// 		},
+		// 	]
+		// })
+
+
+	});
+</script>
